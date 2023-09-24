@@ -1,0 +1,35 @@
+repos:
+    -   repo: 'https://github.com/pre-commit/pre-commit-hooks'
+        rev: v4.4.0
+        hooks:
+            -   id: end-of-file-fixer
+            -   id: trailing-whitespace
+    -   repo: local
+        hooks:
+            -   id: django-check
+                name: Check project for potential problems
+                entry: sh -c 'python manage.py check'
+                types:
+                    - python
+                pass_filenames: false
+                language: system
+            -   id: check-db-migrations
+                name: Checking project for missing migrations.
+                entry: sh -c 'python manage.py makemigrations --check --dry-run'
+                files: models.py
+                types:
+                    - python
+                pass_filenames: false
+                language: system
+    -   repo: https://github.com/PyCQA/flake8
+        rev: 6.0.0
+        hooks:
+            -   id: flake8
+                language_version: python3
+    -   repo: https://github.com/psf/black
+        rev: 23.1.0
+        hooks:
+            -   id: black
+                language: python
+
+exclude: ^(\w+/migrations/|templates/|static/|.gitignore|.env|djangoChatApp/settings.py|manage.py|project/apps.py)
